@@ -1,0 +1,5 @@
+<ion-tabs tabsPosition="bottom">
+  <ion-tab [root]="tab1Root" tabTitle="New Ticket" tabIcon="paper"></ion-tab>
+  <ion-tab [root]="tab2Root" tabTitle="Suspended Tickets" tabIcon="cart"></ion-tab>
+  <ion-tab [root]="tab3Root" tabTitle="Manager Approval" tabIcon="unlock" *ngIf="!isNotManager"></ion-tab>
+</ion-tabs>

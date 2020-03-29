@@ -1,0 +1,12 @@
+functions-popover {
+    .disabled {
+        opacity: 0.25 !important;
+        color: color($colors, light, base) !important;
+    }
+    ion-icon {
+        margin-bottom: 0 !important;
+    }
+    .logout-icon {
+        margin-right: 10px;
+    }
+}

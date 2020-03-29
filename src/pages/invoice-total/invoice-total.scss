@@ -1,0 +1,92 @@
+page-invoice-total {
+    p {
+        color: color($colors, dark, base) !important;
+    }
+    .item-inner {
+        padding-right: 0 !important;
+    }
+    ion-col {
+        overflow: hidden;
+
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    ion-list {
+        ion-label {
+            margin-right: 0 !important;
+        }
+        &.item-list {
+            border-bottom: solid 1px color($colors, light, base);
+            ion-item {
+                ion-label {
+                    & > ion-row {
+                        &:first-of-type {
+                            p {
+                                font-size: 1.5rem !important;
+                            }
+                        }
+                    }
+                }
+                .item-inner {
+                    padding-bottom: 16px;
+                }
+            }
+        }
+        &.total-list {
+            margin-bottom: 65px;
+            ion-row {
+                &.balance-row {
+                    p {
+                        font-size: 1.5rem !important;
+                    }
+                }
+                &.savings-row {
+                    p {
+                        color: color($colors, primary, base) !important;
+                    }
+                }
+                ion-col {
+                    padding-right: 0 !important;
+                    padding-left: 0 !important;
+
+                    &:first-of-type {
+                        @media screen and (min-width: 576px) {
+                            text-align: right;
+                        }
+                    }
+                    &:last-of-type {
+                        text-align: right;
+                    }
+                }
+            }
+        }
+        ion-item {
+            padding-left: 0 !important;
+
+            border-bottom: none !important;
+            &:first-of-type {
+                border-top: none !important;
+            }
+            p {
+                font-size: 1.3rem !important;
+            }
+            ion-row {
+                ion-col {
+                    padding-top: 0 !important;
+                    padding-bottom: 0 !important;
+                }
+            }
+        }
+    }
+    .accounting-text {
+        text-align: right;
+    }
+    .savings-price {
+        p {
+            color: color($colors, primary, base) !important;
+        }
+    }
+}

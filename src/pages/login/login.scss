@@ -1,0 +1,59 @@
+page-login {
+    .scroll-content {
+        display: flex;
+        overflow: hidden;
+        align-items: center;
+        justify-content: center;
+
+        width: 100%;
+        height: 100%;
+
+        background-image: url('../assets/imgs/splash.jpg');
+        background-size: cover;
+    }
+    .primary {
+        /*display: flex;
+        align-items: center;
+        justify-content: center;*/
+        /*width: 100%;
+        height: 100%;*/
+        margin-top: 0 !important;
+        margin-bottom: 0 !important;
+
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+
+            opacity: 0.25;
+            background-image: url('../assets/imgs/art-van-logo.png');
+            background-size: cover;
+        }
+        form {
+            margin-top: 15%;
+        }
+
+        input {
+            display: block;
+
+            width: 250px;
+            height: 40px;
+            margin-bottom: 10px;
+            padding: 0 15px;
+
+            border: solid 1px #555;
+            border-radius: 20px;
+        }
+        p {
+            margin-left: 0 !important;
+
+            text-align: center;
+        }
+    }
+    .form-error {
+        font-weight: bold;
+
+        color: #fff;
+    }
+}

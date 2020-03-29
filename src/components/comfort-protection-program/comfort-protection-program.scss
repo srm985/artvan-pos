@@ -1,0 +1,26 @@
+comfort-protection-program {
+    ion-item {
+        padding-left: 0 !important;
+    }
+    .comfort-message {
+        margin-top: 0;
+
+        text-align: justify;
+
+        color: color($colors, dark, base) !important;
+        .price {
+            color: color($colors, success, base);
+        }
+    }
+    ion-label {
+        p {
+            font-weight: bold;
+
+            color: color($colors, dark, base) !important;
+        }
+    }
+    .form-error {
+        margin-top: 0;
+        margin-left: 0;
+    }
+}

@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Finance Promotions</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-list class="search-results">
+      <ion-item [ngClass]="{'selected-result' : resultSelected == i}" *ngFor="let result of financePromotionsResults; let i = index" (click)="selectFinancePromotion(i)">
+        <ion-row>
+          <p>
+            <b>{{result.name}}</b>&nbsp;({{result.startDate | date:'dd MMM yyyy'}} - {{result.endDate | date:'dd MMM yyyy'}})
+            <span *ngIf="result.payments > 0">
+              <br>Payments: {{result.payments}} </span>
+            <span *ngIf="result.minimumPrice > 0">
+              <br>Min: {{result.minimumPrice | currency}} </span>
+            <span *ngIf="result.percentDown > 0">
+              <br>Down Payment: {{result.percentDown}} </span>
+            <span>
+              <br>With Pay: {{result.withPay ? 'Yes' : 'No'}} </span>
+            <br>
+            <i>{{result.description}}</i>
+          </p>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button [disabled]="!proceedStatus" ion-button block color="primary" (click)="returnFinancePromotion()">SELECT</button>
+  </ion-toolbar>
+</ion-footer>

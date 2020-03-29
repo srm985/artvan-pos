@@ -1,0 +1,74 @@
+page-new-ticket {
+    input {
+        text-transform: uppercase;
+    }
+    .toggle-input-stacked {
+        padding-left: 30px;
+        .item-inner {
+            display: inline-block;
+        }
+        ion-toggle {
+            padding-left: 0 !important;
+            &.toggle-checked {
+                .toggle-inner {
+                    left: 10px;
+                }
+            }
+            &.toggle-md {
+                width: 51px;
+                &.toggle-checked {
+                    .toggle-inner {
+                        left: 23px;
+                    }
+                }
+            }
+            &.toggle-ios {
+                height: 28px !important;
+                padding: 6px 8px 5px 0 !important;
+                .toggle-icon {
+                    height: 28px;
+                    margin-top: 2px;
+                }
+                .toggle-inner {
+                    width: 24px;
+                    height: 24px;
+                }
+                &.toggle-checked {
+                    .toggle-inner {
+                        left: 14px;
+                    }
+                }
+            }
+            .toggle-icon {
+                width: 59px;
+            }
+        }
+    }
+    .search-form-widget {
+        .query-col {
+            a {
+                padding-left: 0;
+
+                background-color: transparent !important;
+            }
+            .item-inner {
+                padding-right: 0;
+
+                background-image: none !important;
+            }
+            ion-label {
+                font-size: 1.4rem;
+
+                margin-top: 43px;
+                margin-right: 0;
+
+                text-align: right;
+
+                color: color($colors, primary, base);
+            }
+        }
+    }
+    .cart-list {
+        margin-bottom: 66px;
+    }
+}

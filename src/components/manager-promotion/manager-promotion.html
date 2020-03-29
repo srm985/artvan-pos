@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Manager's Promotions</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <ion-row *ngFor="let line of approvalLines; let j = index;">
+      <ion-col col-6>
+        <p>{{line.MGVNDA}} {{line.MGMDL}}</p>
+      </ion-col>
+      <ion-col col-6 class="prices">
+        <p>
+          <span>{{line.MGXPRC | currency}}</span>
+          <span class="price-savings" *ngIf="line.MGDISC">{{line.MGDISC | currency}}</span>
+        </p>
+      </ion-col>
+      <ion-col col-12>
+        <ion-item>
+          <ion-label>Promotion:</ion-label>
+          <ion-select [(ngModel)]="line.MGPROMO">
+            <ion-option *ngFor="let code of promotionCodes; let i = index;" [value]="code.PXPROM" [selected]="code.PXPROM == line.MGPROMO">{{code.PXDESC}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <p class="form-error" *ngIf="promoErrors[j]">Invalid Promotion Code</p>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button ion-button block color="primary" (click)="submitPromotions()">SUBMIT</button>
+  </ion-toolbar>
+</ion-footer>

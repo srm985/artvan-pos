@@ -1,0 +1,46 @@
+page-customer-information {
+    .margin-left-5px {
+        margin-left: 5px;
+    }
+    form {
+        max-width: 1024px;
+        &:last-of-type {
+            margin-bottom: 50px;
+        }
+    }
+    ion-row {
+        margin-left: -16px;
+    }
+    ion-checkbox {
+        margin-left: 0 !important;
+    }
+    .item-checkbox {
+        padding-left: 0;
+        ion-label {
+            font-size: 1.3rem;
+
+            color: color($colors, dark, base) !important;
+        }
+    }
+    ion-input {
+        input {
+            &[type='text'] {
+                text-transform: uppercase;
+            }
+            &[type='email'] {
+                text-transform: lowercase;
+            }
+            &[type='search'] {
+                text-transform: uppercase;
+            }
+        }
+    }
+    ion-col {
+        p {
+            margin-left: 16px;
+        }
+    }
+    .select-text {
+        text-overflow: clip;
+    }
+}

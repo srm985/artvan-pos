@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Manager Approval</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="color-wand"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-refresher (ionRefresh)="updateResults($event)">
+    <ion-refresher-content pullingText="Pull to refresh..." refreshingText="Refreshing..."></ion-refresher-content>
+  </ion-refresher>
+  <p padding-horizontal *ngIf="ticketList?.length == 0" color="light">There are currently no manager approval tickets.</p>
+  <ion-grid>
+    <ion-list class="search-results">
+      <ion-item [ngClass]="{'selected-result' : resultSelected == i}" *ngFor="let ticket of ticketList; let i = index" (click)="selectTicket(i)">
+        <ion-row>
+          <ion-col col-4>
+            <p>
+              <b>#{{ticket.id}}</b>
+            </p>
+          </ion-col>
+          <ion-col col-4>
+            <p>
+              <b>{{ticket.suspensionDate | date: "h:mm a"}}&nbsp;-&nbsp;{{ticket.suspensionDate | date:'dd MMM yyyy'}}</b>
+            </p>
+          </ion-col>
+          <ion-col col-4>
+            <!-- <a (click)="deleteTicket(ticket.id)">Delete</a> -->
+          </ion-col>
+          <ion-col col-12>
+            <p>{{ticket.vendor}}&nbsp;{{ticket.model}}</p>
+          </ion-col>
+          <ion-col col-12>
+            <p>
+              <i>{{ticket.associateName}}&nbsp;#{{ticket.associateNumber}}&nbsp;-&nbsp;{{ticket.storeType}}&nbsp;{{ticket.storeLocation}}</i>
+            </p>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+  <ion-fab bottom right *ngIf="resultSelected !== null">
+    <button ion-fab color="primary" (click)="openTicket()">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

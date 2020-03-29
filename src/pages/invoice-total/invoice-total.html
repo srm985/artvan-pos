@@ -1,0 +1,158 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Invoice Total
+      <span *ngIf="storeTypeHeader?.length">({{storeTypeHeader}})</span>
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="color-wand"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <ion-list padding-bottom class="item-list">
+      <ion-item *ngFor="let item of lineItems; let i = index">
+        <ion-row>
+          <ion-col col-10>
+            <p>
+              <span>{{item.vendor}}</span>
+              <span>{{item.model}}</span>
+            </p>
+          </ion-col>
+          <ion-col col-2 text-right>
+            <a text-right (click)="editLineItem(i)">Edit</a>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <p>
+              <i>{{item.desc}}</i>
+            </p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12 *ngFor="let component of item.setItems" margin-top>
+            <p>
+              <span>{{component.vendor}}</span>
+              <span>{{component.model}}</span>
+              <br>
+              <span>{{transactionTypesLookup[component.transType]}}</span>
+              <span *ngIf="component.via > 0">- Via&nbsp;{{component.via}}</span>
+              <span *ngIf="component.acquisitionDate">({{component.acquisitionDate | date:'EEEE - dd MMM yyyy'}})</span>
+              <span *ngIf="component.floorCode?.length">
+                <br>{{floorCodesLookup[component.floorCode]}}</span>
+              <br>
+              <span>x{{component.qty}}</span>
+            </p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <ion-row>
+              <ion-col col-12 col-md-3 *ngIf="!item.setItems?.length">
+                <p>
+                  <span>{{transactionTypesLookup[item.transType]}}</span>
+                  <span *ngIf="item.via > 0">- Via&nbsp;{{item.via}}</span>
+                  <span *ngIf="item.acquisitionDate">({{item.acquisitionDate | date:'EEEE - dd MMM yyyy'}})</span>
+                </p>
+              </ion-col>
+              <ion-col col-12 *ngIf="item.promo_1">
+                <p>{{item.promo_1}}</p>
+              </ion-col>
+              <ion-col col-12 *ngIf="item.promo_2">
+                <p>{{item.promo_2}}</p>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12 col-md-3>
+            <p>{{floorCodesLookup[item.floorCode]}}</p>
+          </ion-col>
+          <ion-col col-3 offset-5 offset-md-3 class="accounting-text">
+            <ion-row>
+              <ion-col col-12 col-sm-8 col-md-6>
+                <p>{{item.price | currency}}</p>
+              </ion-col>
+              <ion-col col-12 col-sm-3 offset-sm-1 col-md-5 offset-md-1>
+                <p>x{{item.qty}}</p>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+          <ion-col col-3 offset-1 col-md-2 class="accounting-text">
+            <ion-row>
+              <ion-col col-12>
+                <p>{{item.totalPrice | currency}}</p>
+              </ion-col>
+              <ion-col col-12 *ngIf="item.price < item.originalPrice" class="savings-price">
+                <p>Savings</p>
+              </ion-col>
+              <ion-col col-12 *ngIf="item.savings > 0" class="savings-price">
+                <p>{{item.savings | currency}}</p>
+              </ion-col>
+            </ion-row>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+    <ion-list no-lines class="total-list">
+      <ion-item>
+        <ion-row>
+          <ion-col col-6 col-sm-8 col-md-9>
+            <p>Sub Total:</p>
+          </ion-col>
+          <ion-col col-6 col-sm-4 col-md-3>
+            <p>{{invoiceSubtotal | currency}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6 col-sm-8 col-md-9>
+            <p>Tax Amount:</p>
+          </ion-col>
+          <ion-col col-6 col-sm-4 col-md-3>
+            <p>{{invoiceTax | currency}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6 col-sm-8 col-md-9>
+            <p>Total Invoice:</p>
+          </ion-col>
+          <ion-col col-6 col-sm-4 col-md-3>
+            <p>{{invoiceTotal | currency}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-6 col-sm-8 col-md-9>
+            <p>Previously Paid:</p>
+          </ion-col>
+          <ion-col col-6 col-sm-4 col-md-3>
+            <p>{{invoicePreviouslyPaid | currency}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row class="balance-row">
+          <ion-col col-6 col-sm-8 col-md-9>
+            <p>Invoice Balance:</p>
+          </ion-col>
+          <ion-col col-6 col-sm-4 col-md-3>
+            <p>{{invoiceBalance | currency}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="invoiceSavings > 0" class="savings-row">
+          <ion-col col-6 col-sm-8 col-md-9>
+            <p>Total Savings:</p>
+          </ion-col>
+          <ion-col col-6 col-sm-4 col-md-3>
+            <p>{{invoiceSavings | currency}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+  <ion-fab bottom right *ngIf="!groupPricingMode">
+    <button ion-fab color="primary" (click)="nextPage()">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

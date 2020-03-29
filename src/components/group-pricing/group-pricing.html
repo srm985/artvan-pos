@@ -1,0 +1,46 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Group Pricing</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list *ngFor="let group of groupList; let i = index;">
+    <ion-list-header>Group&nbsp;{{i + 1}}
+      <a (click)="deleteGroup(i)">Delete</a>
+    </ion-list-header>
+    <p *ngIf="!groupList[i].isValid" class="form-error">Groups must contain at least two items.</p>
+    <ion-item>
+      <ion-label>Price:</ion-label>
+      <ion-input [(ngModel)]="groupList[i].price" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel" (keyup)="formatCurrency()"></ion-input>
+    </ion-item>
+    <p class="form-error" *ngIf="groupErrors[i]">{{groupErrors[i]}}</p>
+    <ion-item *ngFor="let item of group.items" class="group-items-list" padding-horizontal no-lines>
+      <p>{{item.vendor}}&nbsp;{{item.model}}</p>
+      <a (click)="removeFromGroup(i, item.id)">
+        <ion-icon name="close-circle"></ion-icon>
+      </a>
+    </ion-item>
+    <ion-item no-lines>
+      <a (click)="presentGroupItems(i)">Add Item</a>
+    </ion-item>
+  </ion-list>
+  <div padding>
+    <a (click)="addNewGroup()">
+      <ion-icon name="md-add-circle"></ion-icon>&nbsp;Add Group</a>
+  </div>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding-horizontal>
+    <ion-row>
+      <ion-col col-6>
+        <button ion-button outline block color="primary" (click)="removeGroupPricing()">REMOVE GROUP</button>
+      </ion-col>
+      <ion-col col-6>
+        <button ion-button block color="primary" (click)="submitGroupPricing()">SUBMIT</button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

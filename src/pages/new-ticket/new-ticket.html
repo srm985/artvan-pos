@@ -1,0 +1,102 @@
+<ion-header>
+  <ion-navbar hideBackButton>
+    <ion-title>New Ticket
+      <span *ngIf="storeTypeHeader?.length">({{storeTypeHeader}})</span>
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="color-wand"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <div class="search-form-widget" [ngClass]="{'collapsed' : widgetCollapsed}">
+    <div class="search-form-widget-header">
+      <h2>ADD ITEM</h2>
+      <ion-icon name="search" (click)="masterSearch()"></ion-icon>
+      <ion-icon name="arrow-up" (click)="toggleCollapse()" class="collapse-icon"></ion-icon>
+    </div>
+    <div class="search-form-widget-body">
+      <form [formGroup]="addItemForm" (submit)="addToCart()">
+        <ion-grid>
+          <ion-row>
+            <ion-col col-8>
+              <ion-item class="ion-item-no-left-padding">
+                <ion-label stacked>Transaction Type:</ion-label>
+                <ion-select formControlName="transType" [ngModel]="addItemForm.value.transType">
+                  <ion-option *ngFor="let key of transactionTypes" [value]="key.val">{{key.val + ': ' + key.desc}}</ion-option>
+                </ion-select>
+              </ion-item>
+              <p *ngIf="inputErrors[0]" class="form-error">{{inputErrors[0]}}</p>
+            </ion-col>
+            <ion-col col-4>
+              <ion-item>
+                <ion-label stacked>Qty:</ion-label>
+                <ion-input formControlName="qty" [ngModel]="addItemForm.value.qty" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel" (keyup)="formatFields()"></ion-input>
+              </ion-item>
+              <p *ngIf="inputErrors[1]" class="form-error">{{inputErrors[1]}}</p>
+            </ion-col>
+            <ion-col col-4>
+              <ion-item class="ion-item-no-left-padding">
+                <ion-label stacked>Vendor:</ion-label>
+                <ion-input formControlName="vendor" [(ngModel)]="addItemForm.value.vendor" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search"></ion-input>
+              </ion-item>
+              <p *ngIf="inputErrors[2]" class="form-error">{{inputErrors[2]}}</p>
+            </ion-col>
+            <ion-col col-6 col-md-7>
+              <ion-item>
+                <ion-label stacked>Model:</ion-label>
+                <ion-input formControlName="model" [(ngModel)]="addItemForm.value.model" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search"></ion-input>
+              </ion-item>
+              <p *ngIf="inputErrors[3]" class="form-error">{{inputErrors[3]}}</p>
+            </ion-col>
+            <ion-col col-2 col-md-1 class="query-col">
+              <a ion-item no-lines (click)="queryItem()">Query</a>
+            </ion-col>
+            <ion-col col-4>
+              <ion-item class="ion-item-no-left-padding">
+                <ion-label stacked>Floor Code:</ion-label>
+                <ion-select formControlName="floorCode" [ngModel]="addItemForm.value.floorCode">
+                  <ion-option value="">None</ion-option>
+                  <ion-option *ngFor="let key of floorCodes" [value]="key.val">{{key.val + ': ' + key.desc}}</ion-option>
+                </ion-select>
+              </ion-item>
+              <p *ngIf="inputErrors[4]" class="form-error">{{inputErrors[4]}}</p>
+            </ion-col>
+            <ion-col col-4>
+              <ion-item>
+                <ion-label stacked>Special:</ion-label>
+                <ion-select formControlName="specialCode" [ngModel]="addItemForm.value.specialCode">
+                  <ion-option value="">None</ion-option>
+                  <ion-option *ngFor="let key of specialCodes" [value]="key.val">{{key.val + ': ' + key.desc}}</ion-option>
+                </ion-select>
+              </ion-item>
+              <p *ngIf="inputErrors[6]" class="form-error">{{inputErrors[6]}}</p>
+            </ion-col>
+            <ion-col col-4>
+              <ion-item class="ion-item-no-left-padding">
+                <ion-label stacked>Price:</ion-label>
+                <ion-input formControlName="price" [ngModel]="addItemForm.value.price" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel" (keyup)="formatFields()"></ion-input>
+              </ion-item>
+              <p *ngIf="inputErrors[7]" class="form-error">{{inputErrors[7]}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <button ion-button block outline color="primary" type="submit" margin-top>ADD ITEM</button>
+      </form>
+    </div>
+  </div>
+  <ion-grid>
+    <ion-row class="cart-list">
+      <ion-col col-12 col-sm-10 offset-sm-1 col-md-6 offset-md-0 col-xl-4 *ngFor="let cartItem of cartList; let i = index;" class="cart-item-col">
+        <cart-item [rawCartItem]="cartItem"></cart-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <ion-fab bottom right *ngIf="proceedStatus">
+    <button ion-fab color="primary" (click)="nextPage()">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>

@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Modify Sales Associates</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <form (submit)="updateAssociates()">
+    <ion-item>
+      <ion-label>Sales Associate 1:</ion-label>
+      <ion-input clearInput name="associate_1" [(ngModel)]="associateList.slsAssNum1" type="tel"></ion-input>
+    </ion-item>
+    <p class="form-error" *ngIf="errorMap[0]">Invalid Employee</p>
+    <ion-item>
+      <ion-label>Sales Associate 2:</ion-label>
+      <ion-input clearInput name="associate_2" [(ngModel)]="associateList.slsAssNum2" type="tel"></ion-input>
+    </ion-item>
+    <p class="form-error" *ngIf="errorMap[1]">Invalid Employee</p>
+    <ion-item>
+      <ion-label>Sales Associate 3:</ion-label>
+      <ion-input clearInput name="associate_3" [(ngModel)]="associateList.slsAssNum3" type="tel"></ion-input>
+    </ion-item>
+    <p class="form-error" *ngIf="errorMap[2]">Invalid Employee</p>
+    <ion-item>
+      <ion-label>Sales Associate 4:</ion-label>
+      <ion-input clearInput name="associate_4" [(ngModel)]="associateList.slsAssNum4" type="tel"></ion-input>
+    </ion-item>
+    <p class="form-error" *ngIf="errorMap[3]">Invalid Employee</p>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button ion-button block color="primary" (click)="updateAssociates()">UPDATE ASSOCIATES</button>
+  </ion-toolbar>
+</ion-footer>

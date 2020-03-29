@@ -1,0 +1,257 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Customer Information
+      <span *ngIf="!displayedInModal && storeTypeHeader?.length">({{storeTypeHeader}})</span>
+    </ion-title>
+    <ion-buttons start *ngIf="displayedInModal">
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-buttons end *ngIf="!displayedInModal">
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="color-wand"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <h4 class="margin-left-5px">Customer Information</h4>
+    <form margin-bottom [formGroup]="billingForm" (keyup)="updateBillingInfo()">
+      <ion-row>
+        <ion-col col-12>
+          <ion-item>
+            <ion-label stacked>Primary Phone Number:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel" formControlName="phone"></ion-input>
+          </ion-item>
+          <p *ngIf="!billingForm.controls.phone.valid && submitAttempt" class="form-error">Please enter a valid phone number.</p>
+          <p *ngIf="invalidAreaCode" class="form-error">Please enter a valid area code.</p>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-label stacked>First Name:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" formControlName="first_name"></ion-input>
+          </ion-item>
+          <p *ngIf="!billingForm.controls.first_name.valid && submitAttempt" class="form-error">Please enter a valid name.</p>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-label stacked>Last Name:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" formControlName="last_name"></ion-input>
+          </ion-item>
+          <p *ngIf="!billingForm.controls.last_name.valid && submitAttempt" class="form-error">Please enter a valid name.</p>
+        </ion-col>
+        <ion-col col-12 col-sm-6>
+          <ion-item>
+            <ion-label stacked>Address:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search" formControlName="street"></ion-input>
+          </ion-item>
+          <p *ngIf="!billingForm.controls.street.valid && submitAttempt" class="form-error">Please enter a valid street address.</p>
+          <p *ngIf="mappedCustomerErrors[2]" class="form-error">{{mappedCustomerErrors[2]}}</p>
+        </ion-col>
+        <ion-col col-12 col-sm-6>
+          <ion-item>
+            <ion-label stacked>Secondary Address:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search" formControlName="secondary_street"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-7 col-sm-5>
+          <ion-item>
+            <ion-label stacked>City:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" formControlName="city"></ion-input>
+          </ion-item>
+          <p *ngIf="!billingForm.controls.city.valid && submitAttempt" class="form-error">Please enter a valid city.</p>
+        </ion-col>
+        <ion-col col-5 col-sm-3>
+          <ion-item>
+            <ion-label stacked>State:</ion-label>
+            <ion-select formControlName="state" (ionChange)="updateBillingInfo()">
+              <ion-option disabled>United States</ion-option>
+              <ion-option *ngFor="let state of stateListUS" [value]="state.abbr" [selected]="state.abbr==billingForm.state">{{state.abbr + ': ' + state.name}}</ion-option>
+              <ion-option disabled>Canada</ion-option>
+              <ion-option *ngFor="let province of provinceListCanada" [value]="province.abbr" [selected]="province.abbr==billingForm.state">{{province.abbr + ': ' + province.name}}</ion-option>
+            </ion-select>
+          </ion-item>
+          <p *ngIf="!billingForm.controls.state.valid && submitAttempt" class="form-error">Please enter a valid state.</p>
+        </ion-col>
+        <ion-col col-12 col-sm-4>
+          <ion-item>
+            <ion-label stacked>Zip:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" formControlName="zip" maxlength="6" type="search"></ion-input>
+          </ion-item>
+          <p *ngIf="!billingForm.controls.zip.valid && submitAttempt" class="form-error">Please enter a valid zip code.</p>
+          <p *ngIf="mappedCustomerErrors[3]" class="form-error">{{mappedCustomerErrors[3]}}</p>
+        </ion-col>
+        <ion-col col-12 col-sm-5>
+          <ion-item>
+            <ion-label stacked>Secondary Phone Number:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel" formControlName="cell_phone"></ion-input>
+          </ion-item>
+          <p *ngIf="!billingForm.controls.cell_phone.valid && submitAttempt" class="form-error">Please enter a valid phone number.</p>
+          <p *ngIf="mappedCustomerErrors[4]" class="form-error">{{mappedCustomerErrors[4]}}</p>
+        </ion-col>
+        <ion-col col-8 col-sm-5>
+          <ion-item>
+            <ion-label stacked>Work Phone Number:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel" formControlName="work_phone"></ion-input>
+          </ion-item>
+          <p *ngIf="!billingForm.controls.work_phone.valid && submitAttempt" class="form-error">Please enter a valid phone number.</p>
+          <p *ngIf="mappedCustomerErrors[5]" class="form-error">{{mappedCustomerErrors[5]}}</p>
+        </ion-col>
+        <ion-col col-4 col-sm-2>
+          <ion-item>
+            <ion-label stacked>Ext:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel" formControlName="work_ext"></ion-input>
+          </ion-item>
+        </ion-col>
+        <ion-col col-12>
+          <ion-item>
+            <ion-label stacked>Email Address:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="email" formControlName="guest_email"></ion-input>
+          </ion-item>
+          <p *ngIf="!billingForm.controls.guest_email.valid && submitAttempt" class="form-error">Please enter a valid email address.</p>
+        </ion-col>
+        <ion-col col-12>
+          <ion-item>
+            <ion-label stacked>Tax Exempt ID:</ion-label>
+            <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search" formControlName="tax_exempt_id"></ion-input>
+          </ion-item>
+          <p *ngIf="mappedCustomerErrors[6]" class="form-error">{{mappedCustomerErrors[6]}}</p>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-grid>
+  <ion-grid *ngIf="shippingInfoRequired">
+    <h4 margin-top class="margin-left-5px">Shipping Information</h4>
+    <ion-item no-lines class="margin-left-5px">
+      <ion-label>Same as Customer Information</ion-label>
+      <ion-checkbox [(ngModel)]="matchInformation" (click)="shippingInfoMatch()"></ion-checkbox>
+    </ion-item>
+    <form [formGroup]="shippingForm" (keyup)="updateShippingInfo()">
+      <section (keyup)="unmatchInformation()">
+        <ion-row>
+          <ion-col col-6>
+            <ion-item>
+              <ion-label stacked>First Name:</ion-label>
+              <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" formControlName="first_name"></ion-input>
+            </ion-item>
+            <p *ngIf="!shippingForm.controls.first_name.valid && submitAttempt" class="form-error">Please enter a valid name.</p>
+          </ion-col>
+          <ion-col col-6>
+            <ion-item>
+              <ion-label stacked>Last Name:</ion-label>
+              <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" formControlName="last_name"></ion-input>
+            </ion-item>
+            <p *ngIf="!shippingForm.controls.last_name.valid && submitAttempt" class="form-error">Please enter a valid name.</p>
+          </ion-col>
+          <ion-col col-12 col-sm-6>
+            <ion-item>
+              <ion-label stacked>Address:</ion-label>
+              <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search" formControlName="street"></ion-input>
+            </ion-item>
+            <p *ngIf="!shippingForm.controls.street.valid && submitAttempt" class="form-error">Please enter a valid street address.</p>
+            <p *ngIf="mappedDeliveryErrors[2]" class="form-error">{{mappedDeliveryErrors[2]}}</p>
+          </ion-col>
+          <ion-col col-12 col-sm-6>
+            <ion-item>
+              <ion-label stacked>Secondary Address:</ion-label>
+              <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search" formControlName="secondary_street"></ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col col-7 col-sm-5>
+            <ion-item>
+              <ion-label stacked>City:</ion-label>
+              <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" formControlName="city"></ion-input>
+            </ion-item>
+            <p *ngIf="!shippingForm.controls.city.valid && submitAttempt" class="form-error">Please enter a valid city.</p>
+          </ion-col>
+          <ion-col col-5 col-sm-3>
+            <ion-item>
+              <ion-label stacked>State:</ion-label>
+              <ion-select formControlName="state" (ionChange)="unmatchInformation()">
+                <ion-option disabled>United States</ion-option>
+                <ion-option *ngFor="let state of stateListUS" [value]="state.abbr" [selected]="state.abbr==shippingForm.state">{{state.abbr + ': ' + state.name}}</ion-option>
+                <ion-option disabled>Canada</ion-option>
+                <ion-option *ngFor="let province of provinceListCanada" [value]="province.abbr" [selected]="province.abbr==shippingFormstate">{{province.abbr + ': ' + province.name}}</ion-option>
+              </ion-select>
+            </ion-item>
+            <p *ngIf="!shippingForm.controls.state.valid && submitAttempt" class="form-error">Please select a valid state.</p>
+          </ion-col>
+          <ion-col col-12 col-sm-4>
+            <ion-item>
+              <ion-label stacked>Zip:</ion-label>
+              <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search" formControlName="zip" maxlength="6"></ion-input>
+            </ion-item>
+            <p *ngIf="!shippingForm.controls.zip.valid && submitAttempt" class="form-error">Please enter a valid zip code.</p>
+            <p *ngIf="mappedDeliveryErrors[3]" class="form-error">{{mappedDeliveryErrors[3]}}</p>
+          </ion-col>
+          <ion-col col-12>
+            <ion-item>
+              <ion-label stacked>Primary Phone Number:</ion-label>
+              <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel" formControlName="home_phone"></ion-input>
+            </ion-item>
+            <p *ngIf="!shippingForm.controls.home_phone.valid && submitAttempt" class="form-error">Please enter a valid phone number.</p>
+            <p *ngIf="mappedDeliveryErrors[4]" class="form-error">{{mappedDeliveryErrors[4]}}</p>
+          </ion-col>
+          <ion-col col-12 col-sm-5>
+            <ion-item>
+              <ion-label stacked>Secondary Phone Number:</ion-label>
+              <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel" formControlName="cell_phone"></ion-input>
+            </ion-item>
+            <p *ngIf="!shippingForm.controls.cell_phone.valid && submitAttempt" class="form-error">Please enter a valid phone number.</p>
+            <p *ngIf="mappedDeliveryErrors[6]" class="form-error">{{mappedDeliveryErrors[6]}}</p>
+          </ion-col>
+          <ion-col col-8 col-sm-5>
+            <ion-item>
+              <ion-label stacked>Work Phone Number:</ion-label>
+              <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel" formControlName="work_phone"></ion-input>
+            </ion-item>
+            <p *ngIf="!shippingForm.controls.work_phone.valid && submitAttempt" class="form-error">Please enter a valid phone number.</p>
+            <p *ngIf="mappedDeliveryErrors[5]" class="form-error">{{mappedDeliveryErrors[5]}}</p>
+          </ion-col>
+          <ion-col col-4 col-sm-2>
+            <ion-item>
+              <ion-label stacked>Ext:</ion-label>
+              <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel" formControlName="work_ext"></ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+      </section>
+      <section>
+        <ion-row>
+          <ion-col col-12>
+            <ion-item>
+              <ion-label stacked>Contact Number:</ion-label>
+              <ion-select formControlName="contact_method">
+                <ion-option [selected]="shippingForm.value.contact_method=='H'" *ngIf="shippingForm.value.home_phone && shippingForm.controls.home_phone.valid" value="H">Primary Phone</ion-option>
+                <ion-option [selected]="shippingForm.value.contact_method=='C'" *ngIf="shippingForm.value.cell_phone && shippingForm.controls.cell_phone.valid" value="C">Secondary Phone</ion-option>
+                <ion-option [selected]="shippingForm.value.contact_method=='W'" *ngIf="shippingForm.value.work_phone && shippingForm.controls.work_phone.valid" value="W">Work Phone</ion-option>
+              </ion-select>
+            </ion-item>
+            <p *ngIf="!shippingForm.controls.contact_method.valid && submitAttempt" class="form-error">Please select a contact number.</p>
+            <p *ngIf="mappedDeliveryErrors[6]" class="form-error">{{mappedDeliveryErrors[6]}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col col-12>
+            <ion-item>
+              <ion-label stacked>Cross Streets:</ion-label>
+              <ion-input autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="text" formControlName="cross_streets"></ion-input>
+            </ion-item>
+            <p *ngIf="!shippingForm.controls.cross_streets.valid && submitAttempt" class="form-error">Please enter valid cross street information.</p>
+            <p *ngIf="mappedDeliveryErrors[7]" class="form-error">{{mappedDeliveryErrors[7]}}</p>
+          </ion-col>
+        </ion-row>
+      </section>
+    </form>
+  </ion-grid>
+  <ion-fab bottom right *ngIf="!displayedInModal">
+    <button ion-fab color="primary" (click)="nextPage()">
+      <ion-icon name="arrow-forward"></ion-icon>
+    </button>
+  </ion-fab>
+</ion-content>
+<ion-footer *ngIf="displayedInModal">
+  <ion-toolbar padding>
+    <button ion-button block color="primary" (click)="nextPage()">SUBMIT</button>
+  </ion-toolbar>
+</ion-footer>

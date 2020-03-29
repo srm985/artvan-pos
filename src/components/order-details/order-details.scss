@@ -1,0 +1,50 @@
+order-details {
+    form {
+        margin-left: -16px;
+    }
+    ion-row {
+        width: 100%;
+        ion-col {
+            &:first-of-type {
+                padding-left: 0;
+            }
+        }
+    }
+    ion-input {
+        input {
+            text-transform: uppercase;
+        }
+    }
+    .search-button {
+        ion-item,
+        button {
+            display: inline-block;
+        }
+        ion-item {
+            width: calc(100% - 61px);
+        }
+        a {
+            font-size: 1.4rem;
+
+            z-index: 2;
+
+            margin: 28px 0 0 !important;
+        }
+        button {
+            float: right;
+
+            width: 45px;
+            margin-top: 16px;
+            &.button-md {
+                width: 36px;
+                margin-top: 26px;
+                ion-icon {
+                    font-size: 2rem;
+                }
+            }
+            ion-icon {
+                font-size: 4rem;
+            }
+        }
+    }
+}

@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Special Order</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <form>
+    <div class="form-header">
+      <p>{{orderInfo.vendorDescription}}</p>
+      <p>{{orderInfo.price | currency}}</p>
+      <p>{{orderInfo.category}}&nbsp;({{orderInfo.expectedDelivery}})</p>
+    </div>
+    <section>
+      <ion-item margin-top>
+        <ion-label stacked>Model:</ion-label>
+        <ion-input name="model" [(ngModel)]="orderInfo.model" autocomplete="false" autocorrect="false" clearInput="true"></ion-input>
+      </ion-item>
+      <p *ngIf="mappedErrors[0]" class="form-error">{{mappedErrors[0]}}</p>
+      <ion-item>
+        <ion-label stacked>FP/LP Number:</ion-label>
+        <ion-input name="fplpNumber" [(ngModel)]="orderInfo.fplpNumber" autocomplete="false" autocorrect="false" clearInput="true"></ion-input>
+      </ion-item>
+      <p *ngIf="mappedErrors[1]" class="form-error">{{mappedErrors[1]}}</p>
+    </section>
+    <section>
+      <ng-container *ngFor="let line of orderInfo.lines; let i = index">
+        <ng-container *ngIf="line.desc !== 'Other'">
+          <ion-item>
+            <ion-label stacked>{{line.desc}}:</ion-label>
+            <ion-input [name]="line.desc" [(ngModel)]="line.val" autocomplete="false" autocorrect="false" clearInput="true"></ion-input>
+          </ion-item>
+          <p *ngIf="mappedErrors[2 + i]" class="form-error">{{mappedErrors[2 + i]}}</p>
+        </ng-container>
+      </ng-container>
+      <ion-item>
+        <ion-label stacked>Comments:</ion-label>
+        <ion-textarea name="comments" [(ngModel)]="orderInfo.comments"></ion-textarea>
+      </ion-item>
+    </section>
+  </form>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button ion-button block (click)="submitSpecialOrder()" color="primary">SUBMIT</button>
+  </ion-toolbar>
+</ion-footer>

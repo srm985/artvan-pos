@@ -1,0 +1,170 @@
+<ion-card>
+  <ion-card-content *ngIf="editCartItem===false" class="not-editing">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-4 class="no-bottom-padding">
+          <ion-row>
+            <ion-col col-12 class="product-image">
+              <img src={{cartItem.imageURL}}> </ion-col>
+            <ion-col col-12 class="trans-type-tag">
+              <p>{{cartItem.transType}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+        <ion-col col-8 class="no-bottom-padding">
+          <ion-row>
+            <ion-col col-4>
+              <p>{{cartItem.vendor}}</p>
+            </ion-col>
+            <ion-col col-8>
+              <p>{{cartItem.model}}</p>
+            </ion-col>
+            <ion-col col-12>
+              <p>
+                <i>{{cartItem.desc}}</i>
+              </p>
+            </ion-col>
+            <ion-col col-6>
+              <p>Qty:&nbsp;{{cartItem.qty}}
+                <span class="available-quantity">({{cartItem.availableQty}})</span>
+              </p>
+            </ion-col>
+            <ion-col col-6>
+              <a (click)="removeItem($event)">Delete</a>
+            </ion-col>
+            <ion-col col-6 class="unit-price-tag no-bottom-padding">
+              <p>Unit Price:
+                <br>{{cartItem.price | currency}}</p>
+            </ion-col>
+            <ion-col col-6 class="total-price-tag no-bottom-padding">
+              <p>Total Price:
+                <br>{{totalPrice | currency}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row class="cart-item-footer" *ngIf="cartItem.floorCode || cartItem.specialCode || cartItem.protection || cartItem.group || cartItem.promotion_1 || cartItem.promotion_2">
+        <ul>
+          <li *ngIf="cartItem.floorCode">
+            <p>{{cartItem.floorCode}}</p>
+            <ng-container *ngIf="cartItem.protection || cartItem.specialCode||cartItem.group || cartItem.promotion_1 || cartItem.promotion_2">
+              <p>,</p>
+            </ng-container>
+          </li>
+          <li *ngIf="cartItem.specialCode">
+            <p>{{cartItem.specialCode}}</p>
+            <ng-container *ngIf="cartItem.group || cartItem.promotion_1 || cartItem.promotion_2">
+              <p>,</p>
+            </ng-container>
+          </li>
+          <li *ngIf="cartItem.group">
+            <p>Group {{cartItem.group}}</p>
+            <ng-container *ngIf="cartItem.promotion_1 || cartItem.promotion_2">
+              <p>,</p>
+            </ng-container>
+          </li>
+          <li *ngIf="cartItem.promotion_1">
+            <p class="promo-text">{{cartItem.promotion_1}}</p>
+            <ng-container *ngIf="cartItem.promotion_2">
+              <p>,</p>
+            </ng-container>
+          </li>
+          <li *ngIf="cartItem.promotion_2">
+            <p class="promo-text">{{cartItem.promotion_2}}</p>
+          </li>
+        </ul>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+  <ion-card-content *ngIf="editCartItem" class="editing">
+    <ion-grid>
+      <ion-row>
+        <ion-col col-4>
+          <ion-row>
+            <ion-col col-12 class="product-image">
+              <img src={{cartItem.imageURL}}> </ion-col>
+          </ion-row>
+        </ion-col>
+        <ion-col col-8>
+          <ion-row>
+            <ion-col col-4>
+              <p>{{cartItem.vendor}}</p>
+            </ion-col>
+            <ion-col col-8>
+              <p>{{cartItem.model}}</p>
+            </ion-col>
+            <ion-col col-12>
+              <p>
+                <i>{{cartItem.desc}}</i>
+              </p>
+            </ion-col>
+            <ion-col col-5>
+              <p>Qty:
+                <br>
+                <ion-input [(ngModel)]="cartItem.qty" (keyup)="formatFields()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel"></ion-input>
+              </p>
+            </ion-col>
+            <ion-col col-6 offset-1>
+              <a (click)="removeItem($event)">Delete</a>
+            </ion-col>
+            <ion-col col-5 class="unit-price-tag">
+              <p>Unit Price:
+                <br>
+                <ion-input [(ngModel)]="cartItem.price" (keyup)="formatFields()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel"></ion-input>
+              </p>
+            </ion-col>
+            <ion-col col-6 offset-1 class="total-price-tag">
+              <p>Total Price
+                <br>{{totalPrice | currency}}</p>
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+      <ion-row class="upshifted-row" *ngIf="cartItem.transType !== 'SO' || (cartItem.transType === 'SO' && cartItem.specialCode?.length)">
+        <ion-col col-6 class="trans-type-tag" *ngIf="cartItem.transType !== 'SO'">
+          <ion-item>
+            <ion-label stacked>
+              <p>Transaction Type:</p>
+            </ion-label>
+            <ion-select (ionChange)="onTransTypeChange($event)">
+              <ion-option *ngFor="let key of transactionTypes" [value]="key.val" [selected]="cartItem.transType==key.val">{{key.val +': ' + key.desc}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6 class="floor-code-tag" *ngIf="cartItem.transType !== 'SO'">
+          <ion-item>
+            <ion-label stacked>
+              <p>Floor Code:</p>
+            </ion-label>
+            <ion-select (ionChange)="onFloorCodeChange($event)">
+              <ion-option value="" [selected]="!cartItem.floorCode">None</ion-option>
+              <ion-option *ngFor="let key of floorCodes" [value]="key.val" [selected]="cartItem.floorCode==key.val">{{key.val +': ' + key.desc}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6 class="special-tag offset-column" *ngIf="cartItem.specialCode?.length">
+          <ion-item>
+            <ion-label stacked>
+              <p>Special Code:</p>
+            </ion-label>
+            <ion-select (ionChange)=onSpecialCodeChange($event)>
+              <ion-option *ngFor="let key of specialCodes" [value]="key.val" [selected]="cartItem.specialCode==key.val">{{key.val +': ' + key.desc}}</ion-option>
+            </ion-select>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row class="button-row">
+        <ion-col cl-6>
+          <button ion-button block outline color="light" (click)="cancelUpdate()">CANCEL</button>
+        </ion-col>
+        <ion-col col-6>
+          <button *ngIf="cartItem.transType !== 'SO'" ion-button block color="secondary" (click)="updateItem()">UPDATE</button>
+          <button *ngIf="cartItem.transType === 'SO'" ion-button block color="secondary" (click)="updateItem()">NEXT</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-card-content>
+  <ng-container>
+    <ion-icon name="create" (click)="editItem()" color="primary" *ngIf="editCartItem===false"></ion-icon>
+  </ng-container>
+</ion-card>

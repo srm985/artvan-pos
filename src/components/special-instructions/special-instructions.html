@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Special Instructions</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <form (submit)="submitInstructions()">
+    <ion-list>
+      <ion-item>
+        <ion-textarea name="specialInstructions" [(ngModel)]="specialInstructions" [maxlength]="maxLength"></ion-textarea>
+      </ion-item>
+    </ion-list>
+  </form>
+  <p class="text-length">Length: {{specialInstructions.length}} of {{maxLength}}</p>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button ion-button block color="primary" (click)="submitInstructions()">SAVE INSTRUCTIONS</button>
+  </ion-toolbar>
+</ion-footer>

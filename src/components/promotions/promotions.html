@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Sales Promotion Offers</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-list radio-group [(ngModel)]="promotionType" (ionChange)="promotionSelect()">
+    <ion-item>
+      <ion-label>Apply Today's Promotions</ion-label>
+      <ion-radio value="1" checked></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Finance Promotions
+        <span *ngIf="financePromotionSelected?.length">({{financePromotionSelected}})</span>
+      </ion-label>
+      <ion-radio value="2" checked></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Special Promotion Offer
+        <span *ngIf="specialPromotionSelected?.length">({{specialPromotionSelected}})</span>
+      </ion-label>
+      <ion-radio value="3" checked></ion-radio>
+    </ion-item>
+  </ion-list>
+  <a padding-vertical (click)="updatePromotions(false)">Remove Promotions</a>
+  <p *ngIf="invalidPromotion" class="form-error">Invalid promotion number.</p>
+  <p *ngIf="financeOfferConflict" class="form-error">Special promotion not valid with finance offer.</p>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button ion-button block color="primary" (click)="updatePromotions()">APPLY PROMOTIONS</button>
+  </ion-toolbar>
+</ion-footer>

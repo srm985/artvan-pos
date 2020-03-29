@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Comfort Protection</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <p class="comfort-message">{{comfortMessage_1}}
+    <span class="price">{{price | currency}}</span>{{comfortMessage_2}}</p>
+  <ion-item text-wrap no-lines>
+    <ion-label>
+      <p>{{prompt_1}}</p>
+    </ion-label>
+    <ion-checkbox [(ngModel)]="acceptPrompt_1"></ion-checkbox>
+  </ion-item>
+  <p *ngIf="!acceptPrompt_1" class="form-error">Customer must accept all conditions to be eligible for comfort protection.</p>
+  <ion-item text-wrap no-lines *ngIf="!padPurchased">
+    <ion-label>
+      <p>{{prompt_2}}</p>
+    </ion-label>
+    <ion-checkbox [(ngModel)]="acceptPrompt_2"></ion-checkbox>
+  </ion-item>
+  <p *ngIf="!acceptPrompt_2 && !padPurchased" class="form-error">Customer must accept all conditions to be eligible for comfort protection.</p>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button ion-button block color="primary" (click)="submit()">SUBMIT</button>
+  </ion-toolbar>
+</ion-footer>

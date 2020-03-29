@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Order Details</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-list>
+    <ng-container *ngFor="let detailFlag of orderDetails">
+      <ion-item *ngIf="detailFlag?.length">
+        <p>{{detailFlag}}</p>
+      </ion-item>
+    </ng-container>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button ion-button block (click)="dismiss()" color="primary">DISMISS</button>
+  </ion-toolbar>
+</ion-footer>

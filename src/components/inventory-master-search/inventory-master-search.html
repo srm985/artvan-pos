@@ -1,0 +1,165 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Inventory Master Search</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <div class="search-form-widget" [ngClass]="{'collapsed' : widgetCollapsed}">
+    <div class="search-form-widget-header">
+      <h2>Search Criteria</h2>
+      <ion-icon name="arrow-up" (click)="toggleCollapse()" class="collapse-icon"></ion-icon>
+    </div>
+    <div class="search-form-widget-body">
+      <ion-grid>
+        <form (submit)="searchInventory()">
+          <ion-row>
+            <ion-col col-3>
+              <ion-item class="ion-item-no-left-padding">
+                <ion-label stacked>Vendor:</ion-label>
+                <ion-input name="vendor" [(ngModel)]="searchData.vendor" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col col-6>
+              <ion-item>
+                <ion-label stacked>Model:</ion-label>
+                <ion-input name="model" [(ngModel)]="searchData.model" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col col-3>
+              <ion-item>
+                <ion-label stacked>Dept:</ion-label>
+                <ion-input name="department" [(ngModel)]="searchData.department" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col col-9>
+              <ion-item class="ion-item-no-left-padding">
+                <ion-label stacked>Description:</ion-label>
+                <ion-input class="no.text-transform" name="description" [(ngModel)]="searchData.description" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col col-3>
+              <ion-item>
+                <ion-label stacked>Class:</ion-label>
+                <ion-input name="class" [(ngModel)]="searchData.class" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col col-9>
+              <ion-item class="ion-item-no-left-padding">
+                <ion-label stacked>Color/Size:</ion-label>
+                <ion-input class="no-text-transform" name="color_size" [(ngModel)]="searchData.color_size" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col col-3>
+              <ion-item>
+                <ion-label stacked>Style:</ion-label>
+                <ion-input name="style" [(ngModel)]="searchData.style" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel"></ion-input>
+              </ion-item>
+            </ion-col>
+            <ion-col col-4>
+              <ion-item>
+                <ion-label stacked>Status:</ion-label>
+                <ion-select name="status" [(ngModel)]="searchData.status">
+                  <ion-option value="">None</ion-option>
+                  <ion-option value="A">A: Active</ion-option>
+                  <ion-option value="D">D: Delete</ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+            <ion-col col-4>
+              <ion-item>
+                <ion-label stacked>Type:</ion-label>
+                <ion-select name="type" [(ngModel)]="searchData.type">
+                  <ion-option value="">None</ion-option>
+                  <ion-option value="C">C: Collections</ion-option>
+                  <ion-option value="I">I: Inventory</ion-option>
+                  <ion-option value="P">P: Package</ion-option>
+                  <ion-option value="S">S: Sets</ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+            <ion-col col-4>
+              <ion-item>
+                <ion-label stacked>Inventory Codes:</ion-label>
+                <ion-select name="inventory_codes" [(ngModel)]="searchData.inventory_codes">
+                  <ion-option value="">None</ion-option>
+                  <ion-option value="B">B: Store Bought</ion-option>
+                  <ion-option value="C">C: Outlet</ion-option>
+                  <ion-option value="F">F: Finishing Supplies</ion-option>
+                  <ion-option value="O">O: Closeouts</ion-option>
+                  <ion-option value="P">P: Parts</ion-option>
+                  <ion-option value="R">R: Retail</ion-option>
+                  <ion-option value="S">S: Office Supplies</ion-option>
+                  <ion-option value="V">V: Custom Order</ion-option>
+                </ion-select>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+          <button ion-button outline block type="submit" color="primary" margin-top>SEARCH</button>
+        </form>
+      </ion-grid>
+    </div>
+  </div>
+  <ion-grid>
+    <ion-list class="search-results">
+      <ion-item [ngClass]="{'selected-result' : resultSelected == i}" *ngFor="let result of searchResults; let i = index" (click)="selectResult(i)">
+        <ion-row>
+          <ion-col col-8>
+            <p>
+              <b>{{result.IVVNDA}}&nbsp;{{result.IVMDL}} </b>
+            </p>
+          </ion-col>
+          <ion-col col-4>
+            <p class="align-right">Qty:&nbsp;{{result.IVAVL}}</p>
+          </ion-col>
+          <ion-col col-12>
+            <p class="truncate">{{result.IVDESC}}</p>
+          </ion-col>
+        </ion-row>
+        <ion-row *ngIf="i == showAdditional" margin-top>
+          <ion-col col-2>
+            <p>
+              <b>Dept:</b>
+              <br>{{result.IVDEPT}}</p>
+          </ion-col>
+          <ion-col col-2 offset-1>
+            <p>
+              <b>Class:</b>
+              <br>{{result.IVCLAS}}</p>
+          </ion-col>
+          <ion-col col-2 offset-1>
+            <p>
+              <b>Style:</b>
+              <br>{{result.IVSTYLE}}</p>
+          </ion-col>
+          <ion-col col-2 offset-2>
+            <p>
+              <b>SAIBD:</b>
+              <br>{{result.IVDEL}}{{result.IVSET}}{{result.IVCOD}}</p>
+          </ion-col>
+          <ion-col col-6>
+            <p>
+              <b>Size/Color:</b>
+              <br>{{result.IVSZCL}}</p>
+          </ion-col>
+          <ion-col col-6>
+            <p>
+              <b>Alternate Description:</b>
+              <br>{{result.IVADSC}}</p>
+          </ion-col>
+        </ion-row>
+        <a (click)="showAdditionalInfo($event, i)">
+          <span *ngIf="i != showAdditional">Show More</span>
+          <span *ngIf="i == showAdditional && i != resultSelected">Show Less</span>
+        </a>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button [disabled]="!proceedStatus" ion-button block color="primary" (click)="returnResult()">SELECT</button>
+  </ion-toolbar>
+</ion-footer>

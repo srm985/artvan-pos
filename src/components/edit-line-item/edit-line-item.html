@@ -1,0 +1,150 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Edit Line Item</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-12 class="product">
+        <p>{{lineItem.vendor}}&nbsp;{{lineItem.model}}</p>
+      </ion-col>
+      <ion-col col-12>
+        <p>
+          <i>{{lineItem.desc}}</i>
+        </p>
+      </ion-col>
+      <ion-col col-12 *ngIf="!lineItem.editTransactionType">
+        <p>{{transactionTypesLookup[lineItem.transType]}}
+          <span *ngIf="lineItem.via && !lineItem.acquisitionDates?.length"> - Via {{lineItem.via}}</span>
+        </p>
+      </ion-col>
+      <ion-col col-12 *ngIf="lineItem.acquisitionDate && !lineItem.acquisitionDates?.length && !lineItem.editTransactionType">
+        <p>({{lineItem.acquisitionDate | date:'EEEE - dd MMM yyyy'}})</p>
+      </ion-col>
+      <ion-col col-12 *ngIf="!lineItem.editFloorCode">
+        <p>{{floorCodesLookup[lineItem.floorCode]}}</p>
+      </ion-col>
+      <ion-col col-12 *ngIf="lineItem.editTransactionType">
+        <ion-item>
+          <ion-label stacked>Transaction Type:</ion-label>
+          <ion-select [(ngModel)]="lineItem.transType" (ionChange)="checkQueryDates(lineItem.transType, lineItem.via, 0)">
+            <ion-option *ngFor="let type of transactionTypes" [value]="type.val" [selected]="lineItem.transType == type.desc">{{type.val}}:&nbsp;{{type.desc}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-12 *ngIf="lineItem?.acquisitionDates?.length || lineItem.editTransactionType">
+        <ion-item>
+          <ion-label stacked>Via:</ion-label>
+          <ion-input [(ngModel)]="lineItem.via" type="tel"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col col-12 *ngIf="lineItem?.acquisitionDates?.length || lineItem.editTransactionType">
+        <ion-item>
+          <ion-label stacked *ngIf="lineItem.acquisitionType === 'pickup'">Pickup Date:</ion-label>
+          <ion-label stacked *ngIf="lineItem.acquisitionType === 'delivery'">Delivery Date:</ion-label>
+          <ion-label stacked *ngIf="!lineItem.acquisitionType?.length">Acquisition Date:</ion-label>
+          <ion-select [(ngModel)]="lineItem.acquisitionDate">
+            <ion-option *ngFor="let date of lineItem.acquisitionDates" [selected]="date==lineItem.acquisitiondate" [value]="date">{{date | date:'EEEE - dd MMM yyyy'}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-12 *ngIf="lineItem.editFloorCode">
+        <ion-item>
+          <ion-label stacked>Floor Code:</ion-label>
+          <ion-select [(ngModel)]="lineItem.floorCode">
+            <ion-option value="">None</ion-option>
+            <ion-option *ngFor="let code of floorCodes" [value]="code.val" [selected]="lineItem.floorCode == code.desc">{{code.val}}:&nbsp;{{code.desc}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-12 margin-top>
+        <p>Qty:&nbsp;{{lineItem.qty}}</p>
+      </ion-col>
+      <ion-col col-12 margin-vertical *ngIf="lineItem.editPrice">
+        <ion-item>
+          <ion-label stacked>Price:</ion-label>
+          <ion-input [(ngModel)]="lineItem.price" (keyup)="formatCurrency()" type="tel"></ion-input>
+        </ion-item>
+      </ion-col>
+      <ion-col col-12 margin-vertical *ngIf="!lineItem.editPrice">
+        <p>Price:&nbsp;{{lineItem.price}}</p>
+      </ion-col>
+      <ion-col col-12 margin-top>
+        <p>Total Price:&nbsp;{{totalPrice | currency}}</p>
+      </ion-col>
+      <ion-col col-12 margin-top *ngIf="!lineItem.setItems?.length">
+        <ng-container *ngFor="let error of editReturnedErrors[0]">
+          <p *ngIf="error?.length" class="form-error">{{error}}</p>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+    <ion-row class="set-item" *ngFor="let setItem of lineItem.setItems; let i = index;">
+      <ion-col col-12>
+        <p>{{setItem.vendor}}&nbsp;{{setItem.model}}</p>
+      </ion-col>
+      <ion-col col-12>
+        <p>
+          <i>{{setItem.desc}}</i>
+        </p>
+      </ion-col>
+      <ion-col col-12 *ngIf="setItem.via && !setItem.acquisitionDates?.length">
+        <p>{{transactionTypesLookup[setItem.transType]}}
+          <span> - Via {{setItem.via}}</span>
+        </p>
+      </ion-col>
+      <ion-col col-12 *ngIf="setItem.acquisitionDate && !setItem.acquisitionDates?.length">
+        <p>({{setItem.acquisitionDate | date:'EEEE - dd MMM yyyy'}})</p>
+      </ion-col>
+      <ion-col col-12>
+        <p>{{floorCodesLookup[setItem.floorCode]}}</p>
+      </ion-col>
+      <ion-col col-12 *ngIf="setItem.editTransactionType">
+        <ion-item>
+          <ion-label stacked>Transaction Type:</ion-label>
+          <ion-select [(ngModel)]="setItem.transType" (ionChange)="checkQueryDates(setItem.transType, setItem.via, i + 1)">
+            <ion-option *ngFor="let type of transactionTypes" [value]="type.val" [selected]="setItem.transType == type.desc">{{type.val}}:&nbsp;{{type.desc}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-12 *ngIf="setItem.acquisitionDates?.length">
+        <ion-item>
+          <ion-label stacked>Via:</ion-label>
+          <ion-input [(ngModel)]="setItem.via" type="tel"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label stacked *ngIf="setItem.acquisitionType === 'pickup'">Pickup Date:</ion-label>
+          <ion-label stacked *ngIf="setItem.acquisitionType === 'delivery'">Delivery Date:</ion-label>
+          <ion-select [(ngModel)]="setItem.acquisitionDate">
+            <ion-option *ngFor="let date of setItem.acquisitionDates" [selected]="date == setItem.acquisitionDate" [value]="date">{{date | date:'EEEE - dd MMM yyyy'}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-12 *ngIf="setItem.editFloorCode">
+        <ion-item>
+          <ion-label stacked>Floor Code:</ion-label>
+          <ion-select [(ngModel)]="setItem.floorCode">
+            <ion-option value="">None</ion-option>
+            <ion-option *ngFor="let code of floorCodes" [value]="code.val" [selected]="setItem.floorCode == code.desc">{{code.val}}:&nbsp;{{code.desc}}</ion-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col col-12 margin-top>
+        <p>Qty:&nbsp;{{setItem.qty}}</p>
+      </ion-col>
+      <ion-col col-12 margin-top>
+        <ng-container margin-top *ngFor="let error of editReturnedErrors[i]">
+          <p *ngIf="error?.length" class="form-error">{{error}}</p>
+        </ng-container>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button ion-button block (click)="submitEdit()" color="primary" [disabled]="!editAvailableFlag">SAVE</button>
+  </ion-toolbar>
+</ion-footer>

@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Store Selection</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="presentPopover($event)">
+        <ion-icon name="color-wand"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-8 offset-2 col-md-4 offset-md-4 *ngIf="!hasOutletStore">
+        <button ion-button (click)="establishStoreType('R')" color="primary">RETAIL</button>
+      </ion-col>
+      <ion-col col-8 offset-2 col-md-4 offset-md-1 *ngIf="hasOutletStore">
+        <button ion-button (click)="establishStoreType('R')" color="primary">RETAIL</button>
+      </ion-col>
+      <ion-col col-8 offset-2 col-md-4 offset-md-2 *ngIf="hasOutletStore">
+        <button ion-button (click)="establishStoreType('C')" color="primary">OUTLET</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

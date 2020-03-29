@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Protection Plan</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-list radio-group [(ngModel)]="planSelected">
+      <ion-list-header>Protection Plan Selection</ion-list-header>
+      <ion-item>
+        <ion-label>
+          <b>Gold Protection Plan</b>
+          <br>{{protectionPlanOptions.goldDesc}}</ion-label>
+        <ion-radio value="G"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <b>Silver Protection Plan</b>
+          <br>{{protectionPlanOptions.silverDesc}}</ion-label>
+        <ion-radio value="S"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <b>Bronze Protection Plan</b>
+          <br>{{protectionPlanOptions.bronzeDesc}}</ion-label>
+        <ion-radio value="B"></ion-radio>
+      </ion-item>
+    </ion-list>
+    <ion-list radio-group [(ngModel)]="kitSelected">
+      <ion-list-header>Warranty Kit Selection</ion-list-header>
+      <ion-item>
+        <ion-label>
+          <b>Platinum Kit</b>
+          <br>{{protectionPlanOptions.prmDsc}}</ion-label>
+        <ion-radio value="P"></ion-radio>
+      </ion-item>
+      <ion-item>
+        <ion-label>
+          <b>Furniture Care</b>
+          <br>{{protectionPlanOptions.freeDsc}}</ion-label>
+        <ion-radio value="F"></ion-radio>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding-horizontal>
+    <ion-row>
+      <ion-col col-6>
+        <button ion-button outline block color="primary" (click)="submitWarrantyOptions()">DECLINE</button>
+      </ion-col>
+      <ion-col col-6>
+        <button [disabled]="!(planSelected?.length && kitSelected?.length)" ion-button block color="primary" (click)="submitWarrantyOptions(true)">SELECT</button>
+      </ion-col>
+    </ion-row>
+  </ion-toolbar>
+</ion-footer>

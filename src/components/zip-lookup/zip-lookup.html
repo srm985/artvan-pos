@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Zip Code Lookup</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <div class="search-form-widget zip-lookup">
+    <ion-item>
+      <ion-label stacked>City:</ion-label>
+      <ion-input [(ngModel)]="zipCity"></ion-input>
+    </ion-item>
+    <button ion-button icon-only (click)="fetchZipResults()" type="button">
+      <ion-icon name="search"></ion-icon>
+    </button>
+  </div>
+  <ion-grid>
+    <ion-list class="search-results">
+      <ion-item [ngClass]="{'selected-result' : resultSelected == i}" *ngFor="let result of zipResults; let i = index" (click)="selectZip(i)">
+        <ion-row>
+          <ion-col col-12>
+            <p>{{result.city}},&nbsp;{{result.state}}</p>
+          </ion-col>
+          <ion-col col-12>
+            <p>{{result.zip}}</p>
+          </ion-col>
+        </ion-row>
+      </ion-item>
+    </ion-list>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button [disabled]="!proceedStatus" ion-button block color="primary" (click)="returnZip()">SELECT</button>
+  </ion-toolbar>
+</ion-footer>

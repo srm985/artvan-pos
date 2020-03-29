@@ -1,0 +1,16 @@
+manager-promotion {
+    .prices {
+        text-align: right;
+    }
+    ion-item {
+        padding-left: 0 !important;
+    }
+    .price-savings {
+        margin-left: 16px;
+
+        color: color($colors, primary, base);
+    }
+    .form-error {
+        margin-left: 0;
+    }
+}

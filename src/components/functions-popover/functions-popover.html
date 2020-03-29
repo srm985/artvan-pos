@@ -1,0 +1,20 @@
+<ion-list radio-group>
+  <ion-item *ngIf="functionList['search-customer']" (click)="searchCustomer()">Customer Search</ion-item>
+  <ion-item *ngIf="functionList['add-associates']" (click)="addAssociates()">Add Associates</ion-item>
+  <ion-item *ngIf="functionList['special-instructions']" (click)="specialInstructions()">Special Instructions</ion-item>
+  <ion-item *ngIf="functionList['group-pricing']" (click)="groupPricing()">Group Pricing</ion-item>
+  <ion-item *ngIf="functionList['apply-promotions']" (click)="applyPromotions()">Apply Promotions</ion-item>
+  <!-- Removed 5 June 2018 - No Longer On Terminal -->
+  <!-- <ion-item *ngIf="functionList['otd-pricing']" (click)="otdPricing()">OTD Pricing</ion-item> -->
+  <ion-item *ngIf="functionList['in-store-credits']" (click)="inStoreCredits()">In-Store Credits</ion-item>
+  <ion-item *ngIf="functionList['tax-exempt']" (click)="toggleTaxExempt()">
+    <ion-icon item-start name="checkmark-circle" color="primary" [ngClass]="{'disabled' : !taxExemptStatus}"></ion-icon>Tax Exempt</ion-item>
+  <ion-item *ngIf="functionList['manager-promotions']" (click)="displayManagerPromotions()">Manager Promotions</ion-item>
+  <ion-item *ngIf="functionList['customer-information']" (click)="displayCustomerInformation()">Customer Information</ion-item>
+  <ion-item *ngIf="functionList['tender-methods']" (click)="displayTenderMethods()">Tender Methods</ion-item>
+  <ion-item *ngIf="functionList['save-order']" (click)="saveOrder()">Suspend Order</ion-item>
+  <ion-item *ngIf="functionList['delete-order'] && deleteOrderPermitted" (click)="deleteOrder()">Delete Order</ion-item>
+  <ion-item *ngIf="functionList['home']" (click)="navigateHome()">Home</ion-item>
+  <ion-item *ngIf="functionList['logout']" (click)="logout()">
+    <ion-icon name="exit" class="logout-icon"></ion-icon>Log Out</ion-item>
+</ion-list>

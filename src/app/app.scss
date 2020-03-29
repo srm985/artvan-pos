@@ -1,0 +1,222 @@
+// http://ionicframework.com/docs/theming/
+
+
+// App Global Sass
+// --------------------------------------------------
+// Put style rules here that you want to apply globally. These
+// styles are for the entire app and not just one component.
+// Additionally, this file can be also used as an entry point
+// to import other Sass files to be included in the output CSS.
+//
+// Shared Sass variables, which can be used to adjust Ionic's
+// default Sass variables, belong in "theme/variables.scss".
+//
+// To declare rules for a specific mode, create a child rule
+// for the .md, .ios, or .wp mode classes. The mode class is
+// automatically applied to the <body> element in the app.
+
+* {
+    &:focus {
+        outline: none !important;
+    }
+}
+
+a {
+    font-size: 1.4rem;
+
+/*text-decoration: underline;*/
+
+    cursor: pointer;
+}
+
+h1,
+h2,
+h3,
+h4 {
+    color: color($colors, dark, base);
+}
+
+.scroll-content {
+    overflow-y: auto;
+}
+
+ion-grid {
+    padding: 0 !important;
+    ion-col {
+        position: initial !important;
+    }
+}
+
+ion-input,
+ion-select {
+    box-sizing: border-box !important;
+    height: 34px !important;
+}
+
+ion-select {
+    padding-bottom: 0 !important;
+}
+
+ion-label {
+    margin-bottom: 0 !important;
+}
+
+ion-checkbox {
+    margin-right: 8px !important;
+}
+
+.item-checkbox {
+    ion-label {
+        margin-top: 0 !important;
+    }
+}
+
+ion-item,
+.item-inner {
+    border-bottom-color: #dedede !important;
+    box-shadow: none !important;
+}
+
+ion-fab {
+    button {
+        box-shadow: 0 0 4px rgba(0, 0, 0, 0.14), 0 4px 8px rgba(0, 0, 0, 0.28);
+    }
+}
+
+/*******************************************************
+*             Search Form Widget Styling               *
+*******************************************************/
+.search-form-widget {
+    position: relative;
+    z-index: 99;
+
+    display: block;
+    overflow: hidden;
+
+    max-height: 150vh;
+    padding: 16px;
+
+    transition: max-height 0.2s ease-in-out;
+
+    border-bottom: solid 1px color($colors, light, base);
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.25);
+    .search-form-widget-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        h2 {
+            line-height: 0;
+
+            visibility: hidden;
+
+            width: 70%;
+            margin-left: 5px;
+
+            transition: opacity 0.5s ease-in;
+            text-transform: uppercase;
+
+            opacity: 0;
+        }
+        ion-icon {
+            font-size: 30px;
+
+            float: right;
+
+            margin-left: auto;
+
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out;
+        }
+    }
+    .search-form-widget-body {
+        display: flex;
+        justify-content: flex-start;
+
+        width: 100%;
+        ion-row {
+            margin-left: -16px;
+        }
+        form {
+            width: 100%;
+            max-width: 1024px;
+        }
+        ion-item {
+            border-bottom: none !important;
+        }
+
+        input {
+            text-transform: uppercase;
+        }
+        .no-text-transform {
+            input {
+                text-transform: none;
+            }
+        }
+    }
+    &.collapsed {
+        max-height: 60px;
+        .collapse-icon {
+            transform: rotate(180deg);
+        }
+        h2 {
+            visibility: visible;
+
+            opacity: 1;
+        }
+    }
+}
+
+/*******************************************************
+*            Search Results List Styling               *
+*******************************************************/
+.search-results {
+    ion-item {
+        padding-left: 0;
+        &:nth-child(even) {
+            background-color: lightgray;
+        }
+    }
+    .item-inner {
+        padding-top: 8px;
+        padding-bottom: 8px;
+        ion-label {
+            margin-top: 0;
+        }
+    }
+    ion-col {
+        padding: 0 0 0 16px;
+        p {
+            margin-bottom: 0;
+            &.align-right {
+                text-align: right;
+            }
+            &.truncate {
+                overflow: hidden;
+
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+        }
+    }
+    .selected-result {
+        background-color: color($colors, primary, base) !important;
+        p,
+        a {
+            color: #fff;
+        }
+    }
+    a {
+        font-size: 1.4rem;
+
+        float: right;
+    }
+}
+
+/*******************************************************
+*             Form Error Message Styling               *
+*******************************************************/
+.form-error {
+    margin-left: 16px;
+
+    color: color($colors, primary, base);
+}

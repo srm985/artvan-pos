@@ -1,0 +1,78 @@
+page-suspended-tickets {
+    ion-item {
+        padding-left: 0 !important;
+    }
+    ion-grid {
+        position: relative;
+    }
+    .employee-lookup {
+        ion-item,
+        button {
+            display: inline-block;
+        }
+        ion-item {
+            width: calc(100% - 61px);
+        }
+        a {
+            font-size: 1.4rem;
+
+            z-index: 2;
+
+            margin: 28px 0 0 !important;
+        }
+        button {
+            float: right;
+
+            width: 45px;
+            margin-top: 16px;
+            &.button-md {
+                width: 36px;
+                margin-top: 26px;
+                ion-icon {
+                    font-size: 2rem;
+                }
+            }
+            ion-icon {
+                font-size: 4rem;
+            }
+        }
+    }
+    .search-results {
+        ion-item {
+            padding-left: 0;
+        }
+        ion-col {
+            padding: 0 0 0 16px;
+            &:first-of-type {
+                overflow: hidden;
+
+                white-space: nowrap;
+                text-overflow: ellipsis;
+            }
+            p {
+                margin-bottom: 0;
+            }
+        }
+        a {
+            float: right;
+        }
+    }
+    .tender-status {
+        font-weight: bold;
+
+        color: color($colors, success, base);
+    }
+    .manager-status {
+        font-weight: bold;
+
+        color: color($colors, secondary, base);
+    }
+    .selected-result {
+        background-color: color($colors, primary, base);
+        p,
+        a,
+        span {
+            color: #fff;
+        }
+    }
+}

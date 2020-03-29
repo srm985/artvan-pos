@@ -1,0 +1,22 @@
+group-pricing {
+    ion-list-header {
+        ion-label {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+    .group-items-list {
+        ion-label {
+            display: flex;
+            justify-content: space-between;
+
+            margin-top: 0;
+            p {
+                margin-top: 5px;
+            }
+        }
+    }
+    ion-icon {
+        font-size: 2.4rem;
+    }
+}

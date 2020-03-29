@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>In-Store Credit</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-list-header>Extended Warranty</ion-list-header>
+    <ion-item>
+      <ion-label>Complete Care Invoice:</ion-label>
+      <ion-input type="tel" [(ngModel)]="creditList.completeCareNumber_1"></ion-input>
+    </ion-item>
+    <p class="form-error" *ngIf="errorList.E1">{{errorList.E1}}</p>
+    <ion-item>
+      <ion-label>Complete Care Invoice:</ion-label>
+      <ion-input type="tel" [(ngModel)]="creditList.completeCareNumber_2"></ion-input>
+    </ion-item>
+    <p class="form-error" *ngIf="errorList.E2">{{errorList.E2}}</p>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>Total Satisfaction</ion-list-header>
+    <ion-item>
+      <ion-label>TSG Invoice:</ion-label>
+      <ion-input type="tel" [(ngModel)]="creditList.tsgNumber_1"></ion-input>
+    </ion-item>
+    <p class="form-error" *ngIf="errorList.T1">{{errorList.T1}}</p>
+    <ion-item>
+      <ion-label>TSG Invoice:</ion-label>
+      <ion-input type="tel" [(ngModel)]="creditList.tsgNumber_2"></ion-input>
+    </ion-item>
+    <p class="form-error" *ngIf="errorList.T2">{{errorList.T2}}</p>
+  </ion-list>
+  <ion-list>
+    <ion-list-header>Store Inconvenience</ion-list-header>
+    <ion-item>
+      <ion-label>$25:</ion-label>
+      <ion-input type="tel" [(ngModel)]="creditList.giftCard_25"></ion-input>
+    </ion-item>
+    <p class="form-error" *ngIf="errorList.I1">{{errorList.I1}}</p>
+    <ion-item>
+      <ion-label>$50:</ion-label>
+      <ion-input type="tel" [(ngModel)]="creditList.giftCard_50"></ion-input>
+    </ion-item>
+    <p class="form-error" *ngIf="errorList.I2">{{errorList.I2}}</p>
+  </ion-list>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button ion-button block color="primary" (click)="submitCredits()">SUBMIT</button>
+  </ion-toolbar>
+</ion-footer>

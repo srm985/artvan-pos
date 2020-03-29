@@ -1,0 +1,32 @@
+edit-line-item {
+    ion-col {
+        padding: 0 !important;
+    }
+    ion-item {
+        padding-left: 0 !important;
+    }
+    p {
+        margin: 0;
+    }
+    p,
+    input,
+    .select-text {
+        font-size: 1.4rem;
+
+        color: color($colors, dark, base);
+    }
+    .product {
+        p {
+            font-size: 1.6rem;
+        }
+    }
+    .set-item {
+        margin-top: 30px;
+        padding-top: 30px;
+
+        border-top: solid 1px color($colors, light, base);
+    }
+    .form-error{
+        margin-left: 0;
+    }
+}

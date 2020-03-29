@@ -1,0 +1,42 @@
+page-tender-methods {
+    input {
+        text-transform: uppercase;
+    }
+    ion-footer {
+        /* &.hidden-footer {
+            @media screen and (max-width: 480px) {
+                display: none;
+            }
+        } */
+        ion-row {
+            ion-col {
+                padding: 0 !important;
+                p {
+                    margin: 0;
+                }
+                &:first-of-type {
+                    p {
+                        @media screen and (min-width: 768px) {
+                            text-align: right;
+                        }
+                    }
+                }
+                &:last-of-type {
+                    p {
+                        text-align: right;
+                    }
+                }
+            }
+        }
+    }
+    .hidden-footer {
+        /* @media screen and (max-width: 480px) {
+            .scroll-content {
+                min-height: 100%;
+            }
+        } */
+    }
+    .anchor-precedence {
+        z-index: 1;
+    }
+}

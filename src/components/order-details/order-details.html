@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-navbar>
+    <ion-buttons start>
+      <button ion-button (click)="dismiss()">Close</button>
+    </ion-buttons>
+    <ion-title>Order Details</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <form>
+      <ion-item-group class="search-button" *ngIf="displayZipCode">
+        <ion-item>
+          <ion-label stacked>Delivery Zip Code:</ion-label>
+          <ion-input name="zipCode" maxlength="6" [(ngModel)]="orderDetails.zipCode" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="search"></ion-input>
+          <!-- <a item-end (click)="searchZip()">Zip Lookup</a> -->
+        </ion-item>
+        <button ion-button icon-only (click)="fetchDates()" type="button" [disabled]="!setDeliveryDate">
+          <ion-icon name="checkmark"></ion-icon>
+        </button>
+      </ion-item-group>
+      <p *ngIf="inputErrors.invalidZip" class="form-error">Please enter a valid zip code.</p>
+      <ion-item *ngIf="setDeliveryDate">
+        <ion-label stacked>Delivery Date:</ion-label>
+        <ion-select name="deliveryDate" [(ngModel)]="orderDetails.deliveryDate">
+          <ion-option *ngFor="let date of deliveryDates" [value]="date.DVDATE6" [selected]="date.DVDATE6==orderDetails.deliveryDate">{{date.ISO | date:'EEEE - dd MMM yyyy'}}</ion-option>
+        </ion-select>
+      </ion-item>
+      <p *ngIf="inputErrors.invalidDelivery" class="form-error">Please select a valid delivery date.</p>
+      <ion-row>
+        <ion-col col-9>
+          <ion-item-group class="search-button">
+            <ion-item *ngIf="setPickupDate">
+              <ion-label stacked>Pick Up Date:</ion-label>
+              <ion-select name="cpuDate" [(ngModel)]="orderDetails.cpuDate">
+                <ion-option *ngFor="let date of pickupDates" [value]="date.DVDATE6" [selected]="date.DVDATE6==orderDetails.cpuDate">{{date.ISO | date:'EEEE - dd MMM yyyy'}}</ion-option>
+              </ion-select>
+            </ion-item>
+            <button ion-button icon-only (click)="fetchPickupDates()" type="button" *ngIf="setPickupDate">
+              <ion-icon name="search"></ion-icon>
+            </button>
+          </ion-item-group>
+          <p *ngIf="inputErrors.invalidPickup" class="form-error">Please select a valid pickup date.</p>
+        </ion-col>
+        <ion-col col-3>
+          <ion-item *ngIf="setPickupDate">
+            <ion-label stacked>Via:</ion-label>
+            <ion-input name="via" [(ngModel)]="orderDetails.via" (keyup)="formatNumber()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="setBeddingPickup">
+        <ion-col col-9>
+          <ion-item>
+            <ion-label stacked>Bedding Pickup:</ion-label>
+            <ion-select name="beddingPickup" [(ngModel)]="orderDetails.beddingPickup">
+              <ion-option [selected]="orderDetails.beddingPickup=='1'" value="1">Leave In Home</ion-option>
+              <ion-option [selected]="orderDetails.beddingPickup=='2'" value="2">Take To Curb</ion-option>
+              <ion-option [selected]="orderDetails.beddingPickup=='3'" value="3">Recycle</ion-option>
+            </ion-select>
+          </ion-item>
+          <p *ngIf="inputErrors.invalidBeddingPickup" class="form-error">Please select a bedding pickup option.</p>
+        </ion-col>
+        <ion-col col-3>
+          <ion-item *ngIf="orderDetails.beddingPickup==3">
+            <ion-label stacked>Qty:</ion-label>
+            <ion-input name="recycleQty" [(ngModel)]="orderDetails.recycleQty" (keyup)="formatNumber()" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" type="tel"></ion-input>
+          </ion-item>
+          <p *ngIf="inputErrors.invalidRecycleQty" class="form-error">Required</p>
+        </ion-col>
+      </ion-row>
+      <ion-item no-lines margin-top *ngIf="displayZipCode">
+        <ion-label>Delivery Charge</ion-label>
+        <ion-checkbox name="deliveryCharge" [(ngModel)]="orderDetails.deliveryCharge"></ion-checkbox>
+      </ion-item>
+      <ion-item no-lines *ngIf="displayZipCode">
+        <ion-label>Premium Delivery Charge</ion-label>
+        <ion-checkbox name="premiumCharge" [(ngModel)]="orderDetails.premiumCharge"></ion-checkbox>
+      </ion-item>
+    </form>
+  </ion-grid>
+</ion-content>
+<ion-footer>
+  <ion-toolbar padding>
+    <button ion-button block (click)="addOrderDetails()" color="primary">SUBMIT</button>
+  </ion-toolbar>
+</ion-footer>

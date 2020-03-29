@@ -1,0 +1,16 @@
+finance-promotions {
+    ion-item {
+        .item-inner {
+            padding: 8px 16px !important;
+        }
+        ion-label {
+            margin: 0 !important;
+            p {
+                white-space: normal;
+            }
+        }
+    }
+    .promo-title{
+        font-weight: bold;
+    }
+}

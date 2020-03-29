@@ -1,0 +1,14 @@
+<ion-content>
+  <div class="primary">
+    <div class="logo"></div>
+    <form [formGroup]="userCredentialsForm" (submit)="userLogin()">
+      <input placeholder="Username" formControlName="username" type="text">
+      <input placeholder="Password" formControlName="password" type="password">
+      <button ion-button round block color="primary" type="submit">LOGIN</button>
+      <p class="form-error">
+        <span *ngIf="!invalidCredentials">&nbsp;</span>
+        <span *ngIf="invalidCredentials">Please enter valid credentials.</span>
+      </p>
+    </form>
+  </div>
+</ion-content>

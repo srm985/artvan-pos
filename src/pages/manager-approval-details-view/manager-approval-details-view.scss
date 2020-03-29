@@ -1,0 +1,60 @@
+page-manager-approval-details-view {
+    p {
+        color: color($colors, dark, base) !important;
+    }
+    .large-font {
+        font-size: 1.5rem !important;
+    }
+    .item-inner {
+        padding-right: 0 !important;
+    }
+    ion-col {
+        overflow: hidden;
+
+        padding-right: 0 !important;
+        padding-left: 0 !important;
+
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+    ion-list {
+        ion-label {
+            margin-right: 0 !important;
+        }
+        &.item-list {
+            ion-item {
+                .item-inner {
+                    padding-bottom: 16px;
+                }
+            }
+        }
+        ion-item {
+            padding-left: 0 !important;
+
+            border-bottom: none !important;
+            &:first-of-type {
+                border-top: none !important;
+            }
+            p {
+                font-size: 1.3rem !important;
+            }
+            ion-row {
+                ion-col {
+                    padding-top: 0 !important;
+                    padding-bottom: 0 !important;
+                }
+            }
+        }
+    }
+    .accounting-text {
+        text-align: right;
+    }
+    .savings-price {
+        p {
+            color: color($colors, primary, base) !important;
+        }
+    }
+    .footer-columns {
+        padding: 5px !important;
+    }
+}
